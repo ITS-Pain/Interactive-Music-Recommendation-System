@@ -12,10 +12,18 @@ from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 
 # Load the datasets
-music_data = pd.read_csv("data/data.csv")
+# Load the datasets
+import zipfile
+
+# Load the zipped large file
+with zipfile.ZipFile("data/data.zip") as z:
+    music_data = pd.read_csv(z.open("data.csv"))
+
+# Load the other normal CSV files
 genre_data = pd.read_csv('data/data_by_genres.csv')
 year_data = pd.read_csv('data/data_by_year.csv')
 artist_data = pd.read_csv('data/data_by_artist.csv')
+
 
 # Preprocessing
 music_data['decade'] = pd.to_datetime(music_data['year'], format='%Y').dt.year // 10 * 10
